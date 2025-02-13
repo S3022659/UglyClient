@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 class Program
 {
     private const int NUM_SENSORS = 3;
+    private const int NUM_HEATERS = 3;
+
+    private const int NUM_FANS = 3;
 
     static async Task Main(string[] args)
     {
@@ -452,7 +455,7 @@ class Program
     static async Task SetAllHeaters(HttpClient client, int level)
     {
         // TODO hardcoded number of heaters
-        for (int i = 1; i <= 3; i++) // Assuming 3 heaters
+        for (int i = 1; i <= NUM_HEATERS; i++) // Assuming 3 heaters
         {
             await SetHeaterLevel(client, i, level);
         }
@@ -461,7 +464,7 @@ class Program
     static async Task SetAllFans(HttpClient client, bool state)
     {
         // TODO hardcoded number of fans
-        for (int i = 1; i <= 3; i++) // Assuming 3 fans
+        for (int i = 1; i <= NUM_FANS; i++) // Assuming 3 fans
         {
             await SetFanState(client, i, state);
         }
