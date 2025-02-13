@@ -109,6 +109,7 @@ class Program
                     try
                     {
                         Console.WriteLine("Fetching fan states individually...");
+                        // TODO hardcoded number of fans
                         for (int i = 1; i <= 3; i++) // Assuming there are 3 fans for this example
                         {
                             var fanResponse = await client.GetAsync($"api/fans/{i}/state");
@@ -127,6 +128,7 @@ class Program
                             }
                         }
                         Console.WriteLine("Fetching heater levels individually...");
+                        // TODO hardcoded number of heaters
                         for (int i = 1; i <= 3; i++) // Assuming there are 3 heaters for this example
                         {
                             var heaterResponse = await client.GetAsync($"api/heat/{i}/level");
@@ -477,6 +479,7 @@ class Program
 
     static async Task<double> GetAverageTemperature(HttpClient client)
     {
+        // TODO hardcoded 3 sensors
         // Fetch sensor temperatures and calculate the average
         var sensor1 = double.Parse(await GetSensor1Temperature(client));
         var sensor2 = await GetSensor2Temperature(client);
@@ -488,6 +491,7 @@ class Program
 
     static async Task SetAllHeaters(HttpClient client, int level)
     {
+        // TODO hardcoded number of heaters
         for (int i = 1; i <= 3; i++) // Assuming 3 heaters
         {
             await SetHeaterLevel(client, i, level);
@@ -496,14 +500,14 @@ class Program
 
     static async Task SetAllFans(HttpClient client, bool state)
     {
+        // TODO hardcoded number of fans
         for (int i = 1; i <= 3; i++) // Assuming 3 fans
         {
             await SetFanState(client, i, state);
         }
     }
 
- 
-
+    // TODO hardcoded Sensor Tasks
     static async Task<string> GetSensor1Temperature(HttpClient client)
     {
         var response = await client.GetAsync("api/Sensor/sensor1");
@@ -514,6 +518,7 @@ class Program
         throw new Exception($"Failed to get temperature from Sensor 1: {response.ReasonPhrase}");
     }
 
+// TODO hardcoded Sensor Tasks
     static async Task<int> GetSensor2Temperature(HttpClient client)
     {
         var response = await client.GetAsync("api/Sensor/sensor2");
@@ -529,6 +534,7 @@ class Program
         throw new Exception($"Failed to get temperature from Sensor 2: {response.ReasonPhrase}");
     }
 
+// TODO hardcoded Sensor Tasks
     static async Task<decimal> GetSensor3Temperature(HttpClient client)
     {
         var response = await client.GetAsync("api/Sensor/sensor3");
