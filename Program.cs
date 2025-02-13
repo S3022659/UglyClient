@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 class Program
 {
+    private const int NUM_SENSORS = 3;
+
     static async Task Main(string[] args)
     {
         // https://envrosym.azurewebsites.net/
@@ -150,21 +152,7 @@ class Program
                             }
                         }
                         Console.WriteLine("Fetching sensor temperatures individually...");
-                        try
-                        {
-                            var sensor1Temp = await GetSensor1Temperature(client);
-                            Console.WriteLine($"  Sensor 1: Temperature {sensor1Temp} (Deg)");
-
-                            var sensor2Temp = await GetSensor2Temperature(client);
-                            Console.WriteLine($"  Sensor 2: Temperature {sensor2Temp} (Deg)");
-
-                            var sensor3Temp = await GetSensor3Temperature(client);
-                            Console.WriteLine($"  Sensor 3: Temperature {sensor3Temp} (Deg)");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Error fetching sensor data: {ex.Message}");
-                        }
+                        await DisplayAllSensorTemperatures(client);
                     }
                     catch (Exception ex)
                     {
@@ -252,21 +240,7 @@ class Program
 
                                 // Get individual sensor temperatures
                                 Console.WriteLine("Fetching sensor temperatures individually...");
-                                try
-                                {
-                                    var sensor1Temp = await GetSensor1Temperature(client);
-                                    Console.WriteLine($"  Sensor 1: Temperature {sensor1Temp} (Deg)");
-
-                                    var sensor2Temp = await GetSensor2Temperature(client);
-                                    Console.WriteLine($"  Sensor 2: Temperature {sensor2Temp} (Deg)");
-
-                                    var sensor3Temp = await GetSensor3Temperature(client);
-                                    Console.WriteLine($"  Sensor 3: Temperature {sensor3Temp} (Deg)");
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine($"Error fetching sensor data: {ex.Message}");
-                                }
+                                await DisplayAllSensorTemperatures(client);
                             }
                             catch (Exception ex)
                             {
@@ -353,21 +327,7 @@ class Program
 
                     // Get individual sensor temperatures
                     Console.WriteLine("Fetching sensor temperatures individually...");
-                    try
-                    {
-                        var sensor1Temp = await GetSensor1Temperature(client);
-                        Console.WriteLine($"  Sensor 1: Temperature {sensor1Temp} (Deg)");
-
-                        var sensor2Temp = await GetSensor2Temperature(client);
-                        Console.WriteLine($"  Sensor 2: Temperature {sensor2Temp} (Deg)");
-
-                        var sensor3Temp = await GetSensor3Temperature(client);
-                        Console.WriteLine($"  Sensor 3: Temperature {sensor3Temp} (Deg)");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error fetching sensor data: {ex.Message}");
-                    }
+                    await DisplayAllSensorTemperatures(client);
                 }
                 catch (Exception ex)
                 {
@@ -552,8 +512,6 @@ class Program
 
    
 
-   
-
     static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)
     {
         var response = await client.GetAsync($"api/sensor/{sensorId}");
@@ -586,6 +544,22 @@ class Program
         }
     }
 
+    private static async Task DisplayAllSensorTemperatures(HttpClient client)
+    {
+        Console.WriteLine("Fetching sensor temperatures individually...");
+        for (int i = 1; i <= NUM_SENSORS; i++)
+        {
+            try
+            {
+                var temp = await GetSensorTemperature(client, i);
+                Console.WriteLine($"  Sensor {i}: Temperature {temp:F1} (Deg)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"  Sensor {i}: Failed to read temperature - {ex.Message}");
+            }
+        }
+    }
 
     public class FanDTO
     {
