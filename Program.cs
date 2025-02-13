@@ -26,7 +26,9 @@ class Program
             Console.WriteLine("6. Reset Simulation");
             Console.Write("Select an option: ");
 
+            // Read input option
             var input = Console.ReadLine();
+
             switch (input)
             {
                 case "1":
