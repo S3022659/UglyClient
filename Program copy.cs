@@ -571,23 +571,3 @@ class Program
     }
 
 }
-
-public interface IEnvironmentService
-{
-    Task<double> GetTemperature(int sensorId);
-    Task SetFanState(int fanId, bool state);
-    Task SetHeaterLevel(int heaterId, int level);
-}
-
-public class Device
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public DeviceType Type { get; set; }
-}
-
-public class Temperature
-{
-    public double Value { get; set; }
-    public string Unit { get; set; }
-}
