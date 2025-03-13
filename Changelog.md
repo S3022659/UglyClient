@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-
+### 13/03/2025
+- Refactor GetAverageTemperature
+- Removing GetSensorTemperature
 ### Added 27/02/2025
 - Initial project setup

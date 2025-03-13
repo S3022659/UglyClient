@@ -470,51 +470,6 @@ namespace EnvironmentSimulation
             }
         }
 
-        // TODO hardcoded Sensor Tasks
-        static async Task<string> GetSensor1Temperature(HttpClient client)
-        {
-            var response = await client.GetAsync("api/Sensor/sensor1");
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
-            throw new Exception($"Failed to get temperature from Sensor 1: {response.ReasonPhrase}");
-        }
-
-        // TODO hardcoded Sensor Tasks
-        static async Task<int> GetSensor2Temperature(HttpClient client)
-        {
-            var response = await client.GetAsync("api/Sensor/sensor2");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                if (int.TryParse(content, out int temp))
-                {
-                    return temp;
-                }
-                throw new Exception("Failed to parse Sensor 2 temperature as an integer.");
-            }
-            throw new Exception($"Failed to get temperature from Sensor 2: {response.ReasonPhrase}");
-        }
-
-        // TODO hardcoded Sensor Tasks
-        static async Task<decimal> GetSensor3Temperature(HttpClient client)
-        {
-            var response = await client.GetAsync("api/Sensor/sensor3");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                if (decimal.TryParse(content, out decimal temp))
-                {
-                    return temp;
-                }
-                throw new Exception("Failed to parse Sensor 3 temperature as a decimal.");
-            }
-            throw new Exception($"Failed to get temperature from Sensor 3: {response.ReasonPhrase}");
-        }
-
-
-
         static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)
         {
             var response = await client.GetAsync($"api/sensor/{sensorId}");
