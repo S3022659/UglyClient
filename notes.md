@@ -97,3 +97,11 @@ Inconsistent data type handling for temperatures
 Static methods throughout
 Direct dependencies
 No interface abstractions
+
+# Patterns to use TODO!
+
+factory - http client
+facade - api
+adapter - sensors
+state - controls - fans heaters
+command - user input
