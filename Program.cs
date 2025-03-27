@@ -381,7 +381,7 @@ namespace EnvironmentSimulation
             }
         }
 
-        static async Task<double> AdjustTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
+        public static async Task<double> AdjustTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
         {
             Console.WriteLine($"Adjusting temperature to {targetTemperature}°C over {durationSeconds} seconds...");
             int intervalMs = 1000; // 1-second intervals
@@ -413,7 +413,7 @@ namespace EnvironmentSimulation
             return currentTemperature;
         }
 
-        static async Task<double> HoldTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
+        public static async Task<double> HoldTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
         {
             Console.WriteLine($"Holding temperature at {targetTemperature}°C for {durationSeconds} seconds...");
             int intervalMs = 1000; // 1-second intervals
@@ -442,7 +442,7 @@ namespace EnvironmentSimulation
             return currentTemperature;
         }
 
-        static async Task<double> GetAverageTemperature(HttpClient client)
+        public static async Task<double> GetAverageTemperature(HttpClient client)
         {
             double totalTemperature = 0;
             for (int i = 1; i <= NUM_SENSORS; i++)
@@ -470,7 +470,7 @@ namespace EnvironmentSimulation
             }
         }
 
-        static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)
+        public static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)
         {
             var response = await client.GetAsync($"api/sensor/{sensorId}");
             if (response.IsSuccessStatusCode)
@@ -482,7 +482,7 @@ namespace EnvironmentSimulation
             throw new Exception($"Failed to get temperature from sensor {sensorId}: {response.ReasonPhrase}");
         }
 
-        static async Task SetHeaterLevel(HttpClient client, int heaterId, int level)
+        public static async Task SetHeaterLevel(HttpClient client, int heaterId, int level)
         {
             var response = await client.PostAsync($"api/heat/{heaterId}",
                 new StringContent(level.ToString(), System.Text.Encoding.UTF8, "application/json"));
@@ -492,7 +492,7 @@ namespace EnvironmentSimulation
             }
         }
 
-        static async Task SetFanState(HttpClient client, int fanId, bool isOn)
+        public static async Task SetFanState(HttpClient client, int fanId, bool isOn)
         {
             var response = await client.PostAsync($"api/fans/{fanId}",
                 new StringContent(isOn.ToString().ToLower(), System.Text.Encoding.UTF8, "application/json"));
@@ -502,7 +502,7 @@ namespace EnvironmentSimulation
             }
         }
 
-        private static async Task DisplayAllSensorTemperatures(HttpClient client)
+        public static async Task DisplayAllSensorTemperatures(HttpClient client)
         {
             Console.WriteLine("Fetching sensor temperatures individually...");
             for (int i = 1; i <= NUM_SENSORS; i++)
