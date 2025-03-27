@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UglyClient", "UglyClient\UglyClient.csproj", "{95E512C1-A0FB-4358-B90C-9BA26A67B005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UglyClient.Tests", "UglyClient.Tests\UglyClient.Tests.csproj", "{69EDB522-1C53-421F-83AE-1737E3F95616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version2", "Version2Sim-master\Version2.csproj", "{686C77C7-9203-42F3-8BB9-9276762E5D97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95E512C1-A0FB-4358-B90C-9BA26A67B005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E512C1-A0FB-4358-B90C-9BA26A67B005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E512C1-A0FB-4358-B90C-9BA26A67B005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E512C1-A0FB-4358-B90C-9BA26A67B005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69EDB522-1C53-421F-83AE-1737E3F95616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69EDB522-1C53-421F-83AE-1737E3F95616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69EDB522-1C53-421F-83AE-1737E3F95616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69EDB522-1C53-421F-83AE-1737E3F95616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686C77C7-9203-42F3-8BB9-9276762E5D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686C77C7-9203-42F3-8BB9-9276762E5D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686C77C7-9203-42F3-8BB9-9276762E5D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686C77C7-9203-42F3-8BB9-9276762E5D97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
