@@ -105,3 +105,6 @@ facade - api
 adapter - sensors
 state - controls - fans heaters
 command - user input
+
+Versions based on applying patterns.
+- Then add unit tests imbetween applying patterns
