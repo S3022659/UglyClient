@@ -9,8 +9,9 @@ namespace EnvironmentSimulation
     {
         private const int NUM_SENSORS = 3;
         private const int NUM_HEATERS = 3;
-
         private const int NUM_FANS = 3;
+
+        private static DeviceManager deviceManager;
 
         static async Task Main(string[] args)
         {
@@ -21,6 +22,10 @@ namespace EnvironmentSimulation
 
             // Add the API key to the default request headers
             client.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+
+            deviceManager = new DeviceManager(client, NUM_FANS, NUM_HEATERS);
+            await deviceManager.InitializeFromServerAsync();
+            Console.WriteLine("Device states initialized from server.");
 
             while (true)
             {
@@ -39,7 +44,6 @@ namespace EnvironmentSimulation
                 switch (input)
                 {
                     case "1":
-
                         Console.Write("Enter Fan Number: ");
                         if (int.TryParse(Console.ReadLine(), out int fanId))
                         {
@@ -49,8 +53,8 @@ namespace EnvironmentSimulation
 
                             try
                             {
-                                await SetFanState(client, fanId, isOn);
-                                Console.WriteLine($"Fan {fanId} has been turned {(isOn ? "On" : "Off")}.");
+                                bool newState = await deviceManager.ControlFanAsync(fanId, isOn);
+                                Console.WriteLine($"Fan {fanId} has been turned {(newState ? "On" : "Off")}.");
                             }
                             catch (Exception ex)
                             {
@@ -63,7 +67,6 @@ namespace EnvironmentSimulation
                         }
                         break;
                     case "2":
-
                         Console.Write("Enter Heater Number: ");
                         if (int.TryParse(Console.ReadLine(), out int heaterId))
                         {
@@ -72,8 +75,8 @@ namespace EnvironmentSimulation
                             {
                                 try
                                 {
-                                    await SetHeaterLevel(client, heaterId, level);
-                                    Console.WriteLine($"Heater {heaterId} level set to {level}.");
+                                    int newLevel = await deviceManager.ControlHeaterAsync(heaterId, level);
+                                    Console.WriteLine($"Heater {heaterId} level set to {newLevel}.");
                                 }
                                 catch (Exception ex)
                                 {
@@ -115,48 +118,22 @@ namespace EnvironmentSimulation
 
                         try
                         {
-                            Console.WriteLine("Fetching fan states individually...");
-                            // TODO hardcoded number of fans
-                            for (int i = 1; i <= 3; i++) // Assuming there are 3 fans for this example
+                            // Display fan states using our device manager
+                            Console.WriteLine("Fan states:");
+                            foreach (var fanState in deviceManager.GetAllFanStates())
                             {
-                                var fanResponse = await client.GetAsync($"api/fans/{i}/state");
-                                if (fanResponse.IsSuccessStatusCode)
-                                {
-                                    var fanJson = await fanResponse.Content.ReadAsStringAsync();
-                                    var fan = JsonSerializer.Deserialize<FanDTO>(fanJson, new JsonSerializerOptions
-                                    {
-                                        PropertyNameCaseInsensitive = true
-                                    });
-                                    Console.WriteLine($"  Fan {fan.Id}: {(fan.IsOn ? "On" : "Off")}");
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"  Fan {i}: Failed to fetch state.");
-                                }
+                                Console.WriteLine($"  {fanState.Value}");
                             }
-                            Console.WriteLine("Fetching heater levels individually...");
-                            // TODO hardcoded number of heaters
-                            for (int i = 1; i <= 3; i++) // Assuming there are 3 heaters for this example
+
+                            // Display heater states using our device manager
+                            Console.WriteLine("Heater states:");
+                            foreach (var heaterState in deviceManager.GetAllHeaterStates())
                             {
-                                var heaterResponse = await client.GetAsync($"api/heat/{i}/level");
-                                if (heaterResponse.IsSuccessStatusCode)
-                                {
-                                    var levelString = await heaterResponse.Content.ReadAsStringAsync();
-                                    if (int.TryParse(levelString, out int level))
-                                    {
-                                        Console.WriteLine($"  Heater {i}: Level {level}");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine($"  Heater {i}: Failed to parse level.");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"  Heater {i}: Failed to fetch level.");
-                                }
+                                Console.WriteLine($"  {heaterState.Value}");
                             }
-                            Console.WriteLine("Fetching sensor temperatures individually...");
+
+                            // Display sensor temperatures
+                            Console.WriteLine("Sensor temperatures:");
                             await DisplayAllSensorTemperatures(client);
                         }
                         catch (Exception ex)
@@ -454,20 +431,12 @@ namespace EnvironmentSimulation
 
         static async Task SetAllHeaters(HttpClient client, int level)
         {
-            // TODO hardcoded number of heaters
-            for (int i = 1; i <= NUM_HEATERS; i++) // Assuming 3 heaters
-            {
-                await SetHeaterLevel(client, i, level);
-            }
+            await deviceManager.SetAllHeatersAsync(level);
         }
 
         static async Task SetAllFans(HttpClient client, bool state)
         {
-            // TODO hardcoded number of fans
-            for (int i = 1; i <= NUM_FANS; i++) // Assuming 3 fans
-            {
-                await SetFanState(client, i, state);
-            }
+            await deviceManager.SetAllFansAsync(state);
         }
 
         public static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)

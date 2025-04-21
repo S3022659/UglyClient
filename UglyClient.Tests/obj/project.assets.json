@@ -1708,6 +1708,16 @@
         "build": {
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "UglyClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/UglyClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UglyClient.dll": {}
+        }
       }
     }
   },
@@ -5497,41 +5507,59 @@
         "xunit.runner.visualstudio.2.5.3.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "UglyClient/1.0.0": {
+      "type": "project",
+      "path": "../UglyClient/UglyClient.csproj",
+      "msbuildProject": "../UglyClient/UglyClient.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.NET.Test.Sdk >= 17.8.0",
+      "UglyClient >= 1.0.0",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.5.3",
       "xunit.runner.visualstudio >= 2.5.3"
     ]
   },
   "packageFolders": {
-    "/unihome9/scm-studs/s3022659/.nuget/packages/": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/unihome9/scm-studs/s3022659/Documents/year2/UglyClient.Tests/UglyClient.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\dev\\UglyClient\\UglyClient.Tests\\UglyClient.Tests.csproj",
       "projectName": "UglyClient.Tests",
-      "projectPath": "/unihome9/scm-studs/s3022659/Documents/year2/UglyClient.Tests/UglyClient.Tests.csproj",
-      "packagesPath": "/unihome9/scm-studs/s3022659/.nuget/packages/",
-      "outputPath": "/unihome9/scm-studs/s3022659/Documents/year2/UglyClient.Tests/obj/",
+      "projectPath": "C:\\Users\\admin\\dev\\UglyClient\\UglyClient.Tests\\UglyClient.Tests.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\admin\\dev\\UglyClient\\UglyClient.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/unihome9/scm-studs/s3022659/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\admin\\dev\\UglyClient\\UglyClient\\UglyClient.csproj": {
+              "projectPath": "C:\\Users\\admin\\dev\\UglyClient\\UglyClient\\UglyClient.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -5543,7 +5571,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -5582,7 +5611,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
