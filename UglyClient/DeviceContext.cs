@@ -5,22 +5,21 @@ using System.Threading.Tasks;
 namespace EnvironmentSimulation
 {
     // Base context class for all devices
-    public abstract class DeviceContext
+    public abstract class DeviceContext(int deviceId)
     {
-        protected IDeviceState _currentState;
-        protected readonly int _deviceId;
-
-        public DeviceContext(int deviceId)
-        {
-            _deviceId = deviceId;
-        }
+        protected IDeviceState? _currentState;
+        protected readonly int _deviceId = deviceId;
 
         public int DeviceId => _deviceId;
 
-        public string CurrentStateName => _currentState.GetStateName();
+        public string CurrentStateName => _currentState?.GetStateName() ?? "Unknown";
 
         public async Task TransitionStateAsync(HttpClient client)
         {
+            if (_currentState == null)
+            {
+                throw new InvalidOperationException("Current state is null and cannot transition.");
+            }
             _currentState = await _currentState.TransitionAsync(client);
         }
 

@@ -11,7 +11,7 @@ namespace EnvironmentSimulation
         private const int NUM_HEATERS = 3;
         private const int NUM_FANS = 3;
 
-        private static DeviceManager deviceManager;
+        private static DeviceManager? deviceManager;
 
         static async Task Main(string[] args)
         {
@@ -189,7 +189,14 @@ namespace EnvironmentSimulation
                                             {
                                                 PropertyNameCaseInsensitive = true
                                             });
-                                            Console.WriteLine($"  Fan {fan.Id}: {(fan.IsOn ? "On" : "Off")}");
+                                            if (fan != null)
+                                            {
+                                                Console.WriteLine($"  Fan {fan.Id}: {(fan.IsOn ? "On" : "Off")}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("  Fan data is null or could not be deserialized.");
+                                            }
                                         }
                                         else
                                         {
@@ -276,7 +283,10 @@ namespace EnvironmentSimulation
                                 {
                                     PropertyNameCaseInsensitive = true
                                 });
-                                Console.WriteLine($"  Fan {fan.Id}: {(fan.IsOn ? "On" : "Off")}");
+                                if (fan != null)
+                                {
+                                    Console.WriteLine($"  Fan {fan.Id}: {(fan.IsOn ? "On" : "Off")}");
+                                }
                             }
                             else
                             {
@@ -431,12 +441,26 @@ namespace EnvironmentSimulation
 
         static async Task SetAllHeaters(HttpClient client, int level)
         {
-            await deviceManager.SetAllHeatersAsync(level);
+            if (deviceManager != null)
+            {
+                await deviceManager.SetAllHeatersAsync(level);
+            }
+            else
+            {
+                Console.WriteLine("Error: Device manager is not initialized.");
+            }
         }
 
         static async Task SetAllFans(HttpClient client, bool state)
         {
-            await deviceManager.SetAllFansAsync(state);
+            if (deviceManager != null)
+            {
+                await deviceManager.SetAllFansAsync(state);
+            }
+            else
+            {
+                Console.WriteLine("Error: Device manager is not initialized.");
+            }
         }
 
         public static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)

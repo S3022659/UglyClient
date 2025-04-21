@@ -42,7 +42,10 @@ namespace EnvironmentSimulation
                         PropertyNameCaseInsensitive = true
                     });
 
-                    _fans[i].SetState(fan.IsOn ? new FanOnState(i) : new FanOffState(i));
+                    if (fan != null)
+                    {
+                        _fans[i].SetState(fan.IsOn ? new FanOnState(i) : new FanOffState(i));
+                    }
                 }
             }
 
