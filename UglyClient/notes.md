@@ -77,12 +77,9 @@ All functionality is contained in a single Program class
 No clear separation between UI, business logic, and API communication
 Mixed concerns between device control and temperature management
 2. Code Duplication
-// Multiple places with similar HTTP handling code
-    // Similar error handling patterns repeated
-
+- Multiple places with similar HTTP handling code
+- Similar error handling patterns repeated
 3. Inconsistent Error Handling
-// Different error handling approaches
-
 4. Hard-coded Values
 5. Poor API Communication Design
 Direct HttpClient usage throughout the code
@@ -98,13 +95,65 @@ Static methods throughout
 Direct dependencies
 No interface abstractions
 
-# Patterns to use TODO!
+## Abstract Classes and Interfaces
 
-factory - http client
-facade - api
-adapter - sensors
-state - controls - fans heaters
-command - user input
+### Interfaces
+```csharp
+public interface IDeviceControl
+{
+    Task<bool> TurnOn();
+    Task<bool> TurnOff();
+    Task<string> GetStatus();
+}
 
-Versions based on applying patterns.
+public interface ITemperatureSensor
+{
+    Task<double> GetTemperature();
+}
+
+public interface IHeaterControl : IDeviceControl
+{
+    Task<bool> SetLevel(int level);
+    Task<int> GetLevel();
+}
+
+public interface IApiService
+{
+    Task<T> Get<T>(string endpoint);
+    Task<bool> Post(string endpoint, object data);
+}
+```
+
+### Abstract Classes
+```csharp
+public abstract class DeviceBase
+{
+    protected readonly string _endpoint;
+    protected readonly IApiService _apiService;
+
+    protected DeviceBase(string endpoint, IApiService apiService)
+    {
+        _endpoint = endpoint;
+        _apiService = apiService;
+    }
+}
+
+public abstract class ControlDevice : DeviceBase, IDeviceControl
+{
+    public abstract Task<bool> TurnOn();
+    public abstract Task<bool> TurnOff();
+    public abstract Task<string> GetStatus();
+}
+```
+
+
+# Patterns to use!
+
+- factory - http client
+- facade - api
+- adapter - sensors
+- state - controls - fans heaters
+- command - user input
+
+## Versions based on applying patterns.
 - Then add unit tests imbetween applying patterns

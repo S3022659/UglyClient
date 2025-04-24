@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace EnvironmentSimulation
 {
-    class Program
+    /// <summary>
+    /// Main program class for the environment simulation client application.
+    /// Provides functionality to interact with the environment simulation API.
+    /// </summary>
+    public class Program
     {
         private const int NUM_SENSORS = 3;
         private const int NUM_HEATERS = 3;
@@ -13,7 +17,12 @@ namespace EnvironmentSimulation
 
         private static DeviceManager? deviceManager;
 
-        static async Task Main(string[] args)
+        /// <summary>
+        /// Entry point for the application.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public static async Task Main(string[] args)
         {
             // https://envrosym.azurewebsites.net/
             var client = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:5077/") };
@@ -255,6 +264,11 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Resets the system to its initial state.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private static async Task Reset(HttpClient client)
         {
             Console.WriteLine("Resetting client state...");
@@ -337,7 +351,12 @@ namespace EnvironmentSimulation
             }
         }
 
-        static async Task RunTemperatureControlLoop(HttpClient client)
+        /// <summary>
+        /// Runs the temperature control simulation loop according to a predefined pattern.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        private static async Task RunTemperatureControlLoop(HttpClient client)
         {
             Console.WriteLine("Starting temperature control algorithm...");
 
@@ -368,6 +387,14 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Gradually adjusts the temperature to a target value over a specified duration.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="currentTemperature">The current temperature.</param>
+        /// <param name="targetTemperature">The target temperature to reach.</param>
+        /// <param name="durationSeconds">The duration in seconds over which to adjust the temperature.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains the new temperature.</returns>
         public static async Task<double> AdjustTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
         {
             Console.WriteLine($"Adjusting temperature to {targetTemperature}°C over {durationSeconds} seconds...");
@@ -400,6 +427,14 @@ namespace EnvironmentSimulation
             return currentTemperature;
         }
 
+        /// <summary>
+        /// Attempts to maintain a specific temperature for a specified duration.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="currentTemperature">The current temperature.</param>
+        /// <param name="targetTemperature">The temperature to maintain.</param>
+        /// <param name="durationSeconds">The duration in seconds to maintain the temperature.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains the final temperature.</returns>
         public static async Task<double> HoldTemperature(HttpClient client, double currentTemperature, double targetTemperature, int durationSeconds)
         {
             Console.WriteLine($"Holding temperature at {targetTemperature}°C for {durationSeconds} seconds...");
@@ -429,6 +464,11 @@ namespace EnvironmentSimulation
             return currentTemperature;
         }
 
+        /// <summary>
+        /// Calculates the average temperature across all sensors.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains the average temperature.</returns>
         public static async Task<double> GetAverageTemperature(HttpClient client)
         {
             double totalTemperature = 0;
@@ -439,7 +479,13 @@ namespace EnvironmentSimulation
             return totalTemperature / NUM_SENSORS;
         }
 
-        static async Task SetAllHeaters(HttpClient client, int level)
+        /// <summary>
+        /// Sets all heaters to the specified level.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="level">The heater level to set (0-5).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        private static async Task SetAllHeaters(HttpClient client, int level)
         {
             if (deviceManager != null)
             {
@@ -451,7 +497,13 @@ namespace EnvironmentSimulation
             }
         }
 
-        static async Task SetAllFans(HttpClient client, bool state)
+        /// <summary>
+        /// Sets all fans to the specified state.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="state">The state to set (true for on, false for off).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        private static async Task SetAllFans(HttpClient client, bool state)
         {
             if (deviceManager != null)
             {
@@ -463,6 +515,12 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Gets the temperature reading from a specific sensor.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="sensorId">The ID of the sensor to read.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains the temperature in degrees Celsius.</returns>
         public static async Task<double> GetSensorTemperature(HttpClient client, int sensorId)
         {
             var response = await client.GetAsync($"api/sensor/{sensorId}");
@@ -475,6 +533,13 @@ namespace EnvironmentSimulation
             throw new Exception($"Failed to get temperature from sensor {sensorId}: {response.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Sets the power level of a specific heater.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="heaterId">The ID of the heater to control.</param>
+        /// <param name="level">The power level to set (0-5).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public static async Task SetHeaterLevel(HttpClient client, int heaterId, int level)
         {
             var response = await client.PostAsync($"api/heat/{heaterId}",
@@ -485,6 +550,13 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Sets the state of a specific fan.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <param name="fanId">The ID of the fan to control.</param>
+        /// <param name="isOn">The state to set (true for on, false for off).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public static async Task SetFanState(HttpClient client, int fanId, bool isOn)
         {
             var response = await client.PostAsync($"api/fans/{fanId}",
@@ -495,6 +567,11 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Displays the temperature readings from all sensors.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public static async Task DisplayAllSensorTemperatures(HttpClient client)
         {
             Console.WriteLine("Fetching sensor temperatures individually...");
@@ -512,38 +589,107 @@ namespace EnvironmentSimulation
             }
         }
 
+        /// <summary>
+        /// Data Transfer Object for Fan state information.
+        /// </summary>
         public class FanDTO
         {
+            /// <summary>
+            /// Gets or sets the unique identifier for the fan.
+            /// </summary>
             public int Id { get; set; }
+            
+            /// <summary>
+            /// Gets or sets a value indicating whether the fan is turned on.
+            /// </summary>
             public bool IsOn { get; set; }
         }
-
     }
 
+    /// <summary>
+    /// Interface for environment services.
+    /// </summary>
     public interface IEnvironmentService
     {
+        /// <summary>
+        /// Gets the temperature from a specific sensor.
+        /// </summary>
+        /// <param name="sensorId">The ID of the sensor.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains the temperature.</returns>
         Task<double> GetTemperature(int sensorId);
+
+        /// <summary>
+        /// Sets the state of a specific fan.
+        /// </summary>
+        /// <param name="fanId">The ID of the fan.</param>
+        /// <param name="state">The state to set (true for on, false for off).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task SetFanState(int fanId, bool state);
+
+        /// <summary>
+        /// Sets the level of a specific heater.
+        /// </summary>
+        /// <param name="heaterId">The ID of the heater.</param>
+        /// <param name="level">The level to set (0-5).</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task SetHeaterLevel(int heaterId, int level);
     }
 
+    /// <summary>
+    /// Enumeration for device types.
+    /// </summary>
     public enum DeviceType
     {
+        /// <summary>
+        /// Represents a sensor device.
+        /// </summary>
         Sensor,
+
+        /// <summary>
+        /// Represents a fan device.
+        /// </summary>
         Fan,
+
+        /// <summary>
+        /// Represents a heater device.
+        /// </summary>
         Heater
     }
 
+    /// <summary>
+    /// Represents a device in the environment simulation.
+    /// </summary>
     public class Device
     {
+        /// <summary>
+        /// Gets or sets the unique identifier for the device.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the device.
+        /// </summary>
         public required string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the device.
+        /// </summary>
         public DeviceType Type { get; set; }
     }
 
+    /// <summary>
+    /// Represents a temperature reading.
+    /// </summary>
     public class Temperature
     {
+        /// <summary>
+        /// Gets or sets the temperature value.
+        /// </summary>
         public double Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unit of the temperature.
+        /// </summary>
         public required string Unit { get; set; }
     }
 }

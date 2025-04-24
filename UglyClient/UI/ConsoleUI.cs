@@ -4,15 +4,26 @@ using System.Threading.Tasks;
 
 namespace EnvironmentSimulation.UI
 {
+    /// <summary>
+    /// Provides a console-based user interface for interacting with the environment simulation system.
+    /// </summary>
     public class ConsoleUI
     {
         private readonly HttpClient _client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+        /// </summary>
+        /// <param name="client">The HTTP client to use for API communication.</param>
         public ConsoleUI(HttpClient client)
         {
             _client = client;
         }
 
+        /// <summary>
+        /// Runs the console UI, displaying a menu and processing user input.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Run()
         {
             while (true)
@@ -57,6 +68,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Handles the fan control option, allowing users to turn fans on or off.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ControlFan()
         {
             Console.Write("Enter Fan Number: ");
@@ -82,6 +97,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Handles the heater control option, allowing users to set heater levels.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ControlHeater()
         {
             Console.Write("Enter Heater Number: ");
@@ -111,6 +130,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Handles the temperature reading option, displaying the current temperature from a selected sensor.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ReadTemperature()
         {
             Console.Write("Enter Sensor Number: ");
@@ -132,6 +155,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Displays the current state of all devices in the system.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task DisplayStateOfAllDevices()
         {
             Console.WriteLine("Fetching the state of all devices...");
@@ -146,6 +173,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Starts the automatic temperature control simulation based on a predefined pattern.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ControlSimulation()
         {
             Console.WriteLine("Starting temperature control algorithm...");
@@ -160,6 +191,10 @@ namespace EnvironmentSimulation.UI
             }
         }
 
+        /// <summary>
+        /// Resets the simulation to its initial state.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ResetSimulation()
         {
             Console.WriteLine("Resetting client state...");
